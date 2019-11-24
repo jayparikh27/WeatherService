@@ -23,7 +23,9 @@ namespace WeatherService.Api.Controllers
         {
             try
             {
-                bool result = _iWeatherCityBusiness.GetWeatherDetails(file);
+                bool result = false;
+                if (file != null && file.Length > 0 && file.FileName.Contains(".txt"))
+                    result = _iWeatherCityBusiness.GetWeatherDetails(file);
 
                 return Ok(result);
             }
