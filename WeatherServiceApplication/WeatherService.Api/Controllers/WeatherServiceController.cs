@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 using WeatherService.Business;
 
@@ -18,12 +19,19 @@ namespace WeatherService.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetWeatherDetailsAsync(IFormFile file)
+        public IActionResult GetWeatherDetails(IFormFile file)
         {
-            _iWeatherCityBusiness.GetWeatherDetails(file);
+            try
+            {
+                bool result = _iWeatherCityBusiness.GetWeatherDetails(file);
 
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
 
-            return Ok();
         }
     }
 }

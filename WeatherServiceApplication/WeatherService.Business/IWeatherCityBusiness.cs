@@ -7,6 +7,6 @@ namespace WeatherService.Business
 {
    public interface IWeatherCityBusiness
     {
-        void GetWeatherDetails(IFormFile file);
+        bool GetWeatherDetails(IFormFile file);
     }
 }
