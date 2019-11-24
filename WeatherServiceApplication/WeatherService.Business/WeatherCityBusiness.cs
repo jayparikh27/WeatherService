@@ -18,34 +18,42 @@ namespace WeatherService.Business
             _iHttpHelper = httpHelper;
             _iFileHelper = fileHelper;
         }
-        public void GetWeatherDetails(IFormFile file)
+        public bool GetWeatherDetails(IFormFile file)
         {
-            List<string> cityIds = new List<string>();
-            if (file != null && file.Length > 0)
+            try
             {
-                using (var reader = new StreamReader(file.OpenReadStream()))
+                List<string> cityIds = new List<string>();
+                if (file != null && file.Length > 0)
                 {
-                    while (reader.Peek() >= 0)
+                    using (var reader = new StreamReader(file.OpenReadStream()))
                     {
-                        string line = reader.ReadLine();
+                        while (reader.Peek() >= 0)
+                        {
+                            string line = reader.ReadLine();
 
-                        var cityid = Regex.Match(line, @"\d+").Value;
-                        if (!string.IsNullOrEmpty(cityid))
-                            cityIds.Add(cityid);
+                            var cityid = Regex.Match(line, @"\d+").Value;
+                            if (!string.IsNullOrEmpty(cityid))
+                                cityIds.Add(cityid);
+                        }
                     }
-                }
-                foreach (var cityId in cityIds)
-                {
-                    var response = _iHttpHelper.ExecuteGet(string.Format(OPENWEATHERMAP_URL, cityId, "aa69195559bd4f88d79f9aadeb77a8f6"));
-                    if (response != null && response.Content != null)
+                    foreach (var cityId in cityIds)
                     {
-                        string content = response.Content.ReadAsStringAsync().Result;
-                        _iFileHelper.SaveFile(content, cityId);
+                        var response = _iHttpHelper.ExecuteGet(string.Format(OPENWEATHERMAP_URL, cityId, "aa69195559bd4f88d79f9aadeb77a8f6"));
+                        if (response != null && response.Content != null)
+                        {
+                            string content = response.Content.ReadAsStringAsync().Result;
+                            _iFileHelper.SaveFile(content, cityId);
+                        }
                     }
+                    return true;
                 }
-
-
+                return false;
             }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
         }
 
     }
