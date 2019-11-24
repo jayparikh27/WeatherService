@@ -18,7 +18,7 @@ namespace WeatherService.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetWeatherDetailsAsync(IFormFile file)
+        public IActionResult GetWeatherDetails(IFormFile file)
         {
             _iWeatherCityBusiness.GetWeatherDetails(file);
 
