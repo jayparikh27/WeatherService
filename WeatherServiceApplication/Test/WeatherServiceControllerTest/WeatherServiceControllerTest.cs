@@ -22,7 +22,7 @@ namespace WeatherServiceControllerTest
             var fileMock = new Mock<IFormFile>();
             var content = "2643741=City of London";
 
-            var fileName = "test.pdf";
+            var fileName = "test.txt";
             var ms = new MemoryStream();
             var writer = new StreamWriter(ms);
             writer.Write(content);
@@ -44,7 +44,7 @@ namespace WeatherServiceControllerTest
             var fileMock = new Mock<IFormFile>();
             var content = "2643741=City of London";
 
-            var fileName = "test.pdf";
+            var fileName = "test.txt";
             var ms = new MemoryStream();
             var writer = new StreamWriter(ms);
             writer.Write(content);
